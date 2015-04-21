@@ -3,6 +3,9 @@ Manuales Generales
 
 Raspberry Pi
 ---------------------
+Git Rails
+
+> https://www.youtube.com/watch?v=rOXhR2Q6ukc
 
 Configuración del servidor NO-IP
 
