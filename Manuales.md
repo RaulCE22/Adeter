@@ -4,17 +4,8 @@ Manuales Generales
 Raspberry Pi
 ---------------------
 
-Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.
+Configuración del servidor NO-IP
 
-The quick brown fox jumped over the lazy
-dog's back.
+> http://www.redeszone.net/raspberry-pi/no-ip/
 
-### Header 3
 
-> This is a blockquote.
-> 
-> This is the second paragraph in the blockquote.
->
-> ## This is an H2 in a blockquote
