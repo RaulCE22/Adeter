@@ -1,2 +1,2 @@
 # Adeter
-Proyectos de la asociación Adeter
+Proyectos de la asociación
