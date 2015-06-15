@@ -1,0 +1,67 @@
+#!/usr/bin/python
+
+#Clase que implementa todas las funciones para conseguir un 
+#seguimiento de las capturas de imagenes 
+
+import glob
+import os
+
+
+class LogFotos:
+	strNumeroFotos='LOG/NumeroFotos.txt'
+	strNombreFotos='LOG/NombreFotos.txt'
+	strFotoRealizada='foto.jpg'
+	intNumeroFotos=0
+	listTipoFotos=['Fricadas','Parejas','Grupos','Solo']
+	intTipoFotos=0
+	strTipoFotos='Fricadas'
+	intFotosCapturadas=0
+
+	def __init__(self):
+		#Obtener el numero de fotos hechas
+		f = open(self.strNumeroFotos,'r')
+		self.intNumeroFotos = int(f.read())
+		f.close()
+		
+	def FuncIncrementarFoto(self):
+		#Incrementar el numero de fotos
+		self.intNumeroFotos += 1
+		f = open(self.strNumeroFotos,'w')
+		f.write(str(self.intNumeroFotos))
+		f.close()
+	def FuncNombrarFoto(self):
+		self.strFotoRealizada = self.strTipoFotos+'_'+str(self.intNumeroFotos)
+
+	def FuncCambiarTipo(self,tipo):	
+		#Elegir el tipo de fotos realizada
+		if tipo>0 and tipo<4:
+			self.strTipoFotos = self.listTipoFotos[tipo]	
+
+	def FuncGuardarFoto(self):
+		#Guardar el nombre de la foto procesada
+		f = open(self.strNombreFotos,'a')
+		f.write(self.strFotoRealizada+'\n')
+		f.close()
+
+	def FuncProcesarImagen(self):
+		self.FuncNombrarFoto()
+		ListFotos = glob.glob("Captura/*.jpg")
+		ListFotos2 = glob.glob("Imagenes/*.jpg")
+		NumFotos = len(ListFotos)
+		NumFotos2 = len(ListFotos2)
+		if NumFotos > 0 and NumFotos2 == 0:
+			os.system("mv "+ListFotos[0]+" Imagenes/"+self.strFotoRealizada+".jpg")
+
+	def FuncSubirImagen(self):
+		try:
+			os.system("dropbox_uploader upload.sh "+"Imagenes/"+self.strFotoRealizada+".jpg /Public/Fotos")	
+			#si se ha subido correctamente borramos
+			#os.system("rm Imagenes/*")
+			print("hola")
+			error = False
+		except:
+			print("NO")
+			error = True
+		return error
+	
+	

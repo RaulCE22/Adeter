@@ -1,0 +1,4 @@
+name:imprenta
+timePresentation:5
+timeThankYou:5
+brightness:240
