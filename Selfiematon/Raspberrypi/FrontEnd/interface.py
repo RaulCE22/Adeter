@@ -1,10 +1,12 @@
 import pygame
 import glob
 import random
+import os
+import time
 
 class interface:
 
-	rute = "~PycharmProyejects/Adeter/Selfiematon/Raspberrypi/"
+	rute = "/Users/RaulCE22/PycharmProjects/Adeter/Selfiematon/Raspberrypi/FrontEnd/"
 	imgExtension = "jpg"
 	directories = ["presentation","disclaimer","loading","thankyou"]
 	allImages = {}
@@ -27,7 +29,7 @@ class interface:
 			self.screen = pygame.display.set_mode((self.width,self.high))
 
 		#Le introducimos el brillo. Esto dependera si el selfiematon se encuenta en zona abierta o cerrada.
-		self.pantalla.set_alpha(clarity)
+		self.screen.set_alpha(clarity)
 
 
 		#Añadir directorio.
@@ -37,8 +39,7 @@ class interface:
 
 		for d in self.directories:
 			#Imagenes de cada directorio
-			listImages = glob.glob(self.Rute + 'places/'+ self.place+'/'+d+'/*.'+self.imgExtension)
-
+			listImages = glob.glob(self.rute + 'places/'+ self.place+'/'+d+'/*.'+self.imgExtension)
 			#Inicializamos la lista auxiliar
 			imgListAux=[]
 
@@ -51,29 +52,57 @@ class interface:
 			self.allImages[d] = imgListAux
 
 
-	def getImage(self,nameDirectory,index):
+	def loadImage(self,nameDirectory,index):
 
 		#Comprobamos si está el nombre del directorio
-		if self.allImages.has_key(nameDirectory):
+		if nameDirectory in self.allImages:
 			imgListAux = self.allImages[nameDirectory]
 			#Comprobamos si se ha salido del index
 			if index < len(imgListAux):
-				return [imgListAux[index],0]
+				self.screen.blit(imgListAux[index],(0,0))
+				pygame.display.flip()
+				return True
 			else:
-				return ["index: Fuera de rango",1]
+				return False
 		else:
-			return ["nameDirectory: No se encuentra el directorio ",2]
+			return False
 
-	def getImage(self,nameDirectory):
+	def loadImage(self,nameDirectory):
 
-		if self.allImages.has_key(nameDirectory):
-			return [random.choice(self.allImages[nameDirectory]),0]
+		if nameDirectory in self.allImages:
+			imgAux = random.choice(self.allImages[nameDirectory])
+			self.screen.blit(imgAux,(0,0))
+			pygame.display.flip()
+
+			return True
 		else:
-			return ["nameDirectory: No se encuentra el directorio ",2]
-
+			return False
 
 	def getLenImageDirectory(self,nameDirectory):
-		if self.allImages.has_key(nameDirectory):
+		if nameDirectory in self.allImages:
 			return len(self.allImages[nameDirectory])
 		else:
 			return ["nameDirectory: No se encuentra el directorio ",2]
+
+	def newPlace(self,name):
+
+		print ("Creando carpetas...")
+
+
+		d = 'mkdir places/'+name
+		c = ['album','capture','log','logotype','presentation','disclaimer','loading','thankyou']
+
+		os.system(d)
+		for i in c:
+			os.system(d+'/'+str(i))
+
+
+
+I = interface("paniagua",128,False)
+
+
+#I.newPlace("paniagua")
+I.loadAllImages()
+print (I.loadImage("presentation"))
+time.sleep(3)
+
